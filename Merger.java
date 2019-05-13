@@ -17,7 +17,10 @@ public class Merger {
         usersData = list;
     }
 
-
+    private void addToSorted(ArrayList<String> addTo, int fromPos){
+			 addTo.add(usersData.get(fromPos));
+			 usersData.set(fromPos, null);
+    }		
     /**
       Merge the sorted sub-lists.
      */
@@ -30,30 +33,25 @@ public class Merger {
                     // = just past end of list1
       ) {
 		  ArrayList<String> holder = new ArrayList<String>();
-		  while (holder.size() < start0) holder.add(null);
+		  while (holder.size() < start0) holder.add(usersData(holder.size()));
 		  int limit0 = start1 - 1;
 		  int limit1 = nItems - 1;
 		  while (usersData.get(limit0) != null && usersData.get(limit1) != null){
-			  System.out.println(this.toString());
 			  if (usersData.get(start0).compareTo(usersData.get(start1)) <= 0) {
-				  holder.add(usersData.get(start0));
-				  usersData.set(start0, null);
+				  addToSorted(holder, start0);
 				  start0++;
 			  }
 			  else if (usersData.get(start0).compareTo(usersData.get(start1)) > 0) {
-				  holder.add(usersData.get(start1));
-				  usersData.set(start1, null);
+				  addToSorted(holder, start1);
 				  start1++;
 			  }  
 		  }
 		  while (usersData.get(limit0) != null){
-			  holder.add(usersData.get(start0));
-			  usersData.set(start0, null);
+		          addToSorted(holder, start0);
 			  start0++;
 		  }
 		  while (usersData.get(limit1) != null){
-			  holder.add(usersData.get(start1));
-			  usersData.set(start1, null);
+			  addToSorted(holder, start1);
 			  start1++;
 		  }
 		  usersData = holder;
